@@ -7,7 +7,7 @@
       
 """
 
-__author__ = "Julio Waissman"
+__author__ = "Gabriela Miranda"
 __date__ = "enero 2025"
 
 
@@ -47,7 +47,10 @@ def entrena_arbol(datos, target, clase_default,
     """
     atributos = list(datos[0].keys())
     atributos.remove(target)
-        
+
+    if isinstance(variables_seleccionadas, int) and variables_seleccionadas > 0:
+        atributos = random.sample(atributos, min(variables_seleccionadas, len(atributos)))
+
     # Criterios para deterinar si es un nodo hoja
     if  len(datos) == 0 or len(atributos) == 0:
         return NodoN(terminal=True, clase_default=clase_default)
@@ -231,12 +234,12 @@ def imprime_arbol(nodo, nivel=0):
  
 class NodoN:
     def __init__(self, terminal, clase_default, atributo=None, valor=None):
-        self.terminal = terminal
-        self.clase_default = clase_default
-        self.atributo = atributo
-        self.valor = valor
-        self.hijo_menor = None
-        self.hijo_mayor = None
+        self.terminal = terminal # True if its a leaf node
+        self.clase_default = clase_default # Predicated class
+        self.atributo = atributo # Atribute used for splitting
+        self.valor = valor # Threshold for splitting
+        self.hijo_menor = None # left child (values < threshold)
+        self.hijo_mayor = None # right child (values => threshold)
     
     def predice(self, instancia):
         if self.terminal:
